@@ -5,7 +5,7 @@
 
    #+begin_src elisp
      ; Hinzufügen des Pakets zum load-path
-     (add-to-list 'load-path "~/Dev/Tobias/elisp/der-metronom.el")
+     (add-to-list 'load-path "PATH_TO/der-metronom.el")
 
      ; Laden des Pakets
      (load "der-metronom.el")
