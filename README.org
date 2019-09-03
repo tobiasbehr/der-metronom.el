@@ -1,0 +1,24 @@
+* der-metronom.el
+  Ein Emacs Paket zum Abfragen des Metronom Live-Fahrplan. 
+
+** Installation
+
+   #+begin_src elisp
+     ; Hinzufügen des Pakets zum load-path
+     (add-to-list 'load-path "~/Dev/Tobias/elisp/der-metronom.el")
+
+     ; Laden des Pakets
+     (load "der-metronom.el")
+   #+end_src
+
+   Ohne weitere Konfiguration werden die Abfahrten ab Hamburg Hbf
+   geladen. Dies  kann über die folgende Konfiguration geändert
+   werden:
+
+   #+begin_src elisp
+     (setq metronom-from "Ashausen")
+   #+end_src
+
+   Aktuell wird jedoch nur die Strecke zwischen Hamburg Hbf und
+   Lüneburg unterstützt.
+
