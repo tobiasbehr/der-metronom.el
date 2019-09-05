@@ -32,6 +32,22 @@
 (defun station-filter (station)
   `(lambda (element) (string= (cdr (assoc-string 'ziel element)) ,station)))
 
+(defun abfahrt-decorator (prognose)
+  (cond
+   ((string= prognose "pünktlich") 'italic)
+   ((string= prognose "Fahrt fällt aus!") 'error)
+   (t 'warning)))
+
+(defun format-abfahrt (abfahrt)
+  (let* ((zeit (cdr (assoc 'zeit abfahrt)))
+         (ziel (cdr (assoc 'ziel abfahrt)))
+         (prognose (cdr (assoc 'prognose abfahrt)))
+         (face (abfahrt-decorator prognose)))
+    (list nil (vector
+               (propertize (format "%s Uhr" zeit) 'face face)
+               (propertize ziel 'face face)
+               (propertize prognose 'face face)))))
+
 (defun get-abfahrten ()
   (let* ((from (if (boundp 'metronom-from) metronom-from "Hamburg Hbf"))
          (to (if (boundp 'metronom-to) metronom-to "Lüneburg"))
@@ -39,13 +55,7 @@
          (abfahrten (cdr (assoc 'abfahrt response)))
 ;         (abfahrten (seq-filter (station-filter to) (cdr (assoc 'abfahrt response))))
          )
-    (mapcar 
-     (lambda (el) 
-       (list nil (vector
-                  (format "%s Uhr" (cdr (assoc 'zeit el)))
-                  (cdr (assoc 'ziel el))
-                  (cdr (assoc 'prognose el))))) 
-     abfahrten)))
+    (mapcar 'format-abfahrt abfahrten)))
 
 (defun der-metronom--refresh ()
   (setq tabulated-list-entries (get-abfahrten))
@@ -68,6 +78,6 @@
   (setq tabulated-list-format [("Abfahrtszeit" 15 t)
                                ("Ziel" 15 t)
                                ("Prognose" 15 t)])
-  (add-hook 'tabulated-list-revert-hook 'metronom--refresh nil t))
+  (add-hook 'tabulated-list-revert-hook 'der-metronom--refresh nil t))
 
 
