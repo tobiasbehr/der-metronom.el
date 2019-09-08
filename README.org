@@ -19,6 +19,3 @@
      (setq metronom-from "Ashausen")
    #+end_src
 
-   Aktuell wird jedoch nur die Strecke zwischen Hamburg Hbf und
-   Lüneburg unterstützt.
-
